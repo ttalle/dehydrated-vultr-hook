@@ -35,7 +35,7 @@ This script can be used in two ways:
 
 Set this script as your HOOK script in Dehydrated.
 
-### Using (dehydrated-dispatch-hook)[https://github.com/ttalle/dehydrated-dispatch-hook]
+### Using [dehydrated-dispatch-hook](https://github.com/ttalle/dehydrated-dispatch-hook)
 
 Since the Vultr DNS service only allows for verification it only acts on the
 ```deploy_challenge``` and ```clean_challenge``` hooks. To deploy your 
@@ -44,6 +44,6 @@ certificates you will need another script that does that.
 With the dehydrated-dispatch-hook you can combine two hook scripts and
 allow another hook to do the deploy actions.
 
-A nice example would be the (dehydrated-vault-hook)[https://github.com/ttalle/dehydrated-vault-hook] script that stores
+A nice example would be the [dehydrated-vault-hook](https://github.com/ttalle/dehydrated-vault-hook) script that stores
 the certificate, chain and key as a secret in Vault. This enables services
 to safely retreive their certificates themselves.
