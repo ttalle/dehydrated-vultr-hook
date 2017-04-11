@@ -35,15 +35,26 @@ This script can be used in two ways:
 
 Set this script as your HOOK script in Dehydrated.
 
-### Using [dehydrated-dispatch-hook](https://github.com/ttalle/dehydrated-dispatch-hook)
+### Combining multiple hooks
 
 Since the Vultr DNS service only allows for verification it only acts on the
 ```deploy_challenge``` and ```clean_challenge``` hooks. To deploy your 
 certificates you will need another script that does that.
 
-With the dehydrated-dispatch-hook you can combine two hook scripts and
-allow another hook to do the deploy actions.
+Read [Example: Using multiple hooks](https://github.com/lukas2511/dehydrated/wiki/Example:-Using-multiple-hooks)
+on how to do this.
 
 A nice example would be the [dehydrated-vault-hook](https://github.com/ttalle/dehydrated-vault-hook) script that stores
 the certificate, chain and key as a secret in Vault. This enables services
 to safely retreive their certificates themselves.
+
+## Warning/Disclaimer/Current status
+
+There is not much error checking at the moment. Use at your own risk. I advise to use the Let's Encrypt
+staging servers while testing this script to avoid running into the limits.
+
+## Thanks
+
+If you would like to try out Vultr, and give me a small tip, you could use my
+[Vultr affiliate link](http://www.vultr.com/?ref=6827040) for a new account
+with some testing credits.
