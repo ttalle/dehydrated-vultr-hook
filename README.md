@@ -22,8 +22,6 @@ Request an API key from the Vultr web interface and create a configuration
 file as ```/etc/dehydrated/vultr.inc```. It should look like the following:
 
 ```bash
-#!/usr/bin/env bash
-
 APIKEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
