@@ -38,7 +38,7 @@ deploy_challenge() {
             \"name\" : \"${ENTRY}\",
             \"type\" : \"TXT\",
             \"data\" : \"${TOKEN_VALUE}\",
-            \"ttl\" : 300,
+            \"ttl\" : 60,
             \"priority\" : 0
         }"
 
@@ -58,7 +58,7 @@ clean_challenge() {
     ENTRY="_acme-challenge.${HOST}"
 
 read -r -d '' FILTER <<- EOF
-.records[] | if .name == "_acme-challenge" then .id else empty end
+.records[] | if .name == "${ENTRY}" then .id else empty end
 EOF
 
     RECORDID=$(curl -s -H "Authorization: Bearer ${APIKEY}" -X GET "https://api.vultr.com/v2/domains/{$TOP}/records" | jq -r "${FILTER}")
