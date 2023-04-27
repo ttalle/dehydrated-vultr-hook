@@ -32,11 +32,15 @@ deploy_challenge() {
 
     echo " + ${SCRIPTNAME}: Creating entry $ENTRY in $TOP"
 
-    curl -s -H "API-Key: ${APIKEY}" 'https://api.vultr.com/v1/dns/create_record' \
-        --data "domain=${TOP}" \
-        --data "name=${ENTRY}" \
-        --data "type=TXT" \
-        --data "data=\"${TOKEN_VALUE}\""
+    curl -s -H "Authorization: Bearer ${APIKEY}" -H "Content-Type: application/json" \
+        -X POST "https://api.vultr.com/v2/domains/${TOP}/records" \
+        --data "{
+            \"name\" : \"${ENTRY}\",
+            \"type\" : \"TXT\",
+            \"data\" : \"${TOKEN_VALUE}\",
+            \"ttl\" : 60,
+            \"priority\" : 0
+        }"
 
 }
 
@@ -54,17 +58,16 @@ clean_challenge() {
     ENTRY="_acme-challenge.${HOST}"
 
 read -r -d '' FILTER <<- EOF
-.[] | if .name == "${ENTRY}" then .RECORDID else empty end
+.records[] | if .name == "${ENTRY}" then .id else empty end
 EOF
 
-    RECORDID=$(curl -s -H "API-Key: ${APIKEY}" "https://api.vultr.com/v1/dns/records?domain=${TOP}" | jq "${FILTER}")
-
+    RECORDID=$(curl -s -H "Authorization: Bearer ${APIKEY}" -X GET "https://api.vultr.com/v2/domains/{$TOP}/records" | jq -r "${FILTER}")
+    
     if [ "" != "${RECORDID}" ]; then
         echo " + ${SCRIPTNAME}: Removing entry $ENTRY from $TOP ($RECORDID)"
 
-        curl -s -H "API-Key: ${APIKEY}" 'https://api.vultr.com/v1/dns/delete_record' \
-            --data "domain=${TOP}" \
-            --data "RECORDID=${RECORDID}"
+        curl -s -H "Authorization: Bearer ${APIKEY}" \
+            -X DELETE "https://api.vultr.com/v2/domains/${TOP}/records/${RECORDID}"
     fi
 
 }
